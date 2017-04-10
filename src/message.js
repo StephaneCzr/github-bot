@@ -4,6 +4,7 @@
  */
 
 const recastai = require('recastai')
+const battle = require('./battle')
 
 // This function is the core of the bot behaviour
 const replyMessage = (message) => {
@@ -42,7 +43,13 @@ const replyMessage = (message) => {
     // Send all replies
     message.reply()
     .then(() => {
-      // Do some code after sending messages
+      if (result.action && result.action.slug === 'battle' && result.action.done) {
+	  battle(result.getMemory('repo-1').raw, result.getMemory('repo-2').raw)
+		.then(res => {
+		  message.addReply(res)
+			message.reply()
+     })
+}
     })
     .catch(err => {
       console.error('Error while sending message to channel', err)
