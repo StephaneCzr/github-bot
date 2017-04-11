@@ -25,6 +25,8 @@ const getWinner = (repo1, repo2) => {
 
   const reply = `${winner.name} got more stars (${winner.stars}) than ${looser.name} (${looser.stars})`
 
+  result.setMemory({ winner })
+
   return reply
 }
 
@@ -33,7 +35,7 @@ const battle = (repo1, repo2) => {
     githubCall(repo1),
     githubCall(repo2),
   ]).then(repos => {
-    return { type: 'text', content: getWinner(repos[0], repos[1]) }
+    return { type: 'text', content: getWinner(result, repos[0], repos[1]) }
   })
 }
 
